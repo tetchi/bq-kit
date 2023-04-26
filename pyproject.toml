@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "bq_kit"}]
 
 [tool.poetry.dependencies]
-python = "^3.9,<3.10"
+python = "^3.10,<3.11"
 pydata-google-auth = "^1.7.0"
 google-cloud-bigquery = "^3.10.0"
 google-cloud-bigquery-storage = "^2.19.1"
