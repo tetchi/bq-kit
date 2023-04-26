@@ -58,17 +58,22 @@ class BigQuery:
                 self.bq_client.delete_table(cache_table_id)
                 print("Delete cache table {}".format(cache_table_id))
                 raise NotFound("Delete cache table")
+            else:
+                sql = "select * from `{}`".format(cache_table_id)
+                if data_format == DataFormat.pandas:
+                    return self.bq_to_df(sql)
+                elif data_format == DataFormat.arrow:
+                    return self.bq_to_arrow(sql)
         except NotFound:
+            print("Create cache table {}".format(cache_table_id))
             job_config = bigquery.QueryJobConfig(
-                destination=cache_table_id)
-            self.bq_client.query(
+                destination=cache_table_id, write_disposition="WRITE_EMPTY")
+            query_job = self.bq_client.query(
                 sql, project=self.project_name, job_config=job_config)
-        finally:
-            sql = "select * from {}".format(cache_table_id)
             if data_format == DataFormat.pandas:
-                return self.bq_to_df(sql)
+                return query_job.to_dataframe()
             elif data_format == DataFormat.arrow:
-                return self.bq_to_arrow(sql)
+                return query_job.to_arrow()
 
     def bq_cache_to_df(self, sql: str, cache_table_id: str, clear_cache=False) -> pd.DataFrame:
         return self.__bq_cache_to(sql, DataFormat.pandas, cache_table_id=cache_table_id, clear_cache=clear_cache)
