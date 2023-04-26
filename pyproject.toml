@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bq-kit"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Tetsuro Shimada <tetsuro.shimada@gmail.com>"]
 license = "MIT License"

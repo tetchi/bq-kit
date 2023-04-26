@@ -63,11 +63,12 @@ class BigQuery:
                 destination=cache_table_id)
             self.bq_client.query(
                 sql, project=self.project_name, job_config=job_config)
-        sql = "select * from {}".format(cache_table_id)
-        if data_format == DataFormat.pandas:
-            return self.bq_to_df(sql)
-        elif data_format == DataFormat.arrow:
-            return self.bq_to_arrow(sql)
+        finally:
+            sql = "select * from {}".format(cache_table_id)
+            if data_format == DataFormat.pandas:
+                return self.bq_to_df(sql)
+            elif data_format == DataFormat.arrow:
+                return self.bq_to_arrow(sql)
 
     def bq_cache_to_df(self, sql: str, cache_table_id: str, clear_cache=False) -> pd.DataFrame:
         return self.__bq_cache_to(sql, DataFormat.pandas, cache_table_id=cache_table_id, clear_cache=clear_cache)
