@@ -49,15 +49,18 @@ class BigQuery:
 
     def bq_to_arrow(self, sql: str) -> pa.Table:
         return self.__bq_to(sql, DataFormat.arrow)
+    
+    def clear_cache(self, cache_table_id: str):
+        self.bq_client.delete_table(cache_table_id)
+        print("Delete cache table {}".format(cache_table_id))
 
     def __bq_cache_to(self, sql: str, data_format: DataFormat, cache_table_id: str, clear_cache=False):
         try:
             self.bq_client.get_table(cache_table_id)
             print("Cache table {} already exists.".format(cache_table_id))
             if clear_cache:
-                self.bq_client.delete_table(cache_table_id)
-                print("Delete cache table {}".format(cache_table_id))
-                raise NotFound("Delete cache table")
+                self.clear_cache(cache_table_id)
+                raise NotFound("Delete cache table {}".format(cache_table_id))
             else:
                 sql = "select * from `{}`".format(cache_table_id)
                 if data_format == DataFormat.pandas:
