@@ -49,10 +49,18 @@ class BigQuery:
 
     def bq_to_arrow(self, sql: str) -> pa.Table:
         return self.__bq_to(sql, DataFormat.arrow)
-    
+
     def clear_cache(self, cache_table_id: str):
         self.bq_client.delete_table(cache_table_id)
         print("Delete cache table {}".format(cache_table_id))
+
+    def bq_cache(self, sql: str, cache_table_id: str):
+        print("Create cache table {}".format(cache_table_id))
+        job_config = bigquery.QueryJobConfig(
+            destination=cache_table_id, write_disposition="WRITE_EMPTY")
+        query_job = self.bq_client.query(
+            sql, project=self.project_name, job_config=job_config)
+        query_job.result()
 
     def __bq_cache_to(self, sql: str, data_format: DataFormat, cache_table_id: str, clear_cache=False):
         try:
