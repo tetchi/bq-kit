@@ -51,8 +51,11 @@ class BigQuery:
         return self.__bq_to(sql, DataFormat.arrow)
 
     def clear_cache(self, cache_table_id: str):
-        self.bq_client.delete_table(cache_table_id)
-        print("Delete cache table {}".format(cache_table_id))
+        try:
+            self.bq_client.delete_table(cache_table_id)
+            print("Delete cache table {}".format(cache_table_id))
+        except NotFound:
+            print("Cache table {} does not exist.".format(cache_table_id))
 
     def bq_cache(self, sql: str, cache_table_id: str):
         print("Create cache table {}".format(cache_table_id))
