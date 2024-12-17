@@ -1,5 +1,6 @@
 from enum import Enum, auto
 
+from datetime import datetime, timedelta
 from google.cloud import bigquery
 from google.cloud import bigquery_storage
 from google.cloud.exceptions import NotFound
@@ -64,6 +65,10 @@ class BigQuery:
         query_job = self.bq_client.query(
             sql, project=self.project_name, job_config=job_config)
         query_job.result()
+        # テーブル有効期限を半年に設定
+        table = self.bq_client.get_table(cache_table_id)
+        table.expires = datetime.now() + timedelta(days=365)
+        self.bq_client.update_table(table, ["expires"])
 
     def __bq_cache_to(self, sql: str, data_format: DataFormat, cache_table_id: str, clear_cache=False):
         try:
