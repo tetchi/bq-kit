@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bq-kit"
-version = "0.1.7"
+version = "0.1.8"
 description = ""
 authors = ["Tetsuro Shimada <tetsuro.shimada@gmail.com>"]
 license = "MIT License"
@@ -14,7 +14,7 @@ google-cloud-bigquery = "^3.10.0"
 google-cloud-bigquery-storage = "^2.19.1"
 autopep8 = "^2.0.2"
 pandas = "^2.0.1"
-pyarrow = "^18.1.0"
+pyarrow = "^19.0.0"
 db-dtypes = "^1.1.1"
 
 

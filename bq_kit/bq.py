@@ -66,6 +66,7 @@ class BigQuery:
             sql, project=self.project_name, job_config=job_config)
         query_job.result()
         # テーブル有効期限を半年に設定
+        # https://cloud.google.com/bigquery/docs/managing-tables?hl=ja#updating_a_tables_expiration_time
         table = self.bq_client.get_table(cache_table_id)
         table.expires = datetime.now() + timedelta(days=365)
         self.bq_client.update_table(table, ["expires"])
