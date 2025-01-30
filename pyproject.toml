@@ -1,23 +1,15 @@
-[tool.poetry]
+[project]
 name = "bq-kit"
 version = "0.1.8"
 description = ""
-authors = ["Tetsuro Shimada <tetsuro.shimada@gmail.com>"]
-license = "MIT License"
 readme = "README.md"
-packages = [{include = "bq_kit"}]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-pydata-google-auth = "^1.7.0"
-google-cloud-bigquery = "^3.10.0"
-google-cloud-bigquery-storage = "^2.19.1"
-autopep8 = "^2.0.2"
-pandas = "^2.0.1"
-pyarrow = "^19.0.0"
-db-dtypes = "^1.1.1"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.11"
+dependencies = [
+    "autopep8>=2.3.2",
+    "db-dtypes>=1.4.0",
+    "google-cloud-bigquery>=3.29.0",
+    "google-cloud-bigquery-storage>=2.27.0",
+    "pandas>=2.2.3",
+    "pyarrow>=19.0.0",
+    "pydata-google-auth>=1.9.1",
+]
